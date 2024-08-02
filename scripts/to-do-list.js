@@ -1,6 +1,6 @@
 
-let  taskArray=[];
-let sectionHTML='';
+let taskArray=JSON.parse(localStorage.getItem("taskArray"))||[];
+let sectionHTML=localStorage.getItem("sectionHTML")||'';
 
 function add(){
     const name=document.querySelector('.js-input-todo').value;
@@ -13,9 +13,11 @@ function add(){
     taskArray.push(tempObj);
     document.querySelector('.js-input-todo').value='';
     document.querySelector('.js-todo-time').value='';
+    localStorage.setItem("taskArray",JSON.stringify(taskArray));
 }
 
 function updateSection(){
+    sectionHTML='';
     for(let i=0;i<taskArray.length;i++){
         const {name,date}=taskArray[i];
         sectionHTML+=`
@@ -23,18 +25,18 @@ function updateSection(){
             <p>${name}</p>
             <p>${date}</p>
             <button class="delete-button" onclick="
-                taskArray.splice(${i},1);
+                deleteArray(${i});
                 updateSection();
                 displaySection();
             ">Delete</button>
         </section>
         `;
-    }   
+    }
+    localStorage.setItem("sectionHTML",sectionHTML);  
 }
 
 function displaySection(){
     document.querySelector('.js-list-section').innerHTML=sectionHTML;
-    sectionHTML='';
 }
 
 function checkInput(){
@@ -45,3 +47,10 @@ function checkInput(){
         return false;
     }
 }
+
+function deleteArray(i){
+    taskArray.splice(i,1);
+    localStorage.setItem("taskArray",JSON.stringify(taskArray));
+}
+
+displaySection();
