@@ -12,7 +12,7 @@ function add(){
     };
     taskArray.push(tempObj);
     document.querySelector('.js-input-todo').value='';
-    document.querySelector('.js-todo-time').value='';
+    document.querySelector('.js-todo-time').value=currentDate();
     localStorage.setItem("taskArray",JSON.stringify(taskArray));
 }
 
@@ -53,4 +53,15 @@ function deleteArray(i){
     localStorage.setItem("taskArray",JSON.stringify(taskArray));
 }
 
+function currentDate(){
+    let detailedDate=new Date();
+    let year=detailedDate.getFullYear();
+    let month=String(detailedDate.getMonth()+1).padStart(2,'0');
+    let date=String(detailedDate.getDate()).padStart(2,'0');
+    detailedDate=`${year}-${month}-${date}`;
+    return detailedDate;
+}
+
 displaySection();
+
+document.querySelector('.js-todo-time').value=currentDate();
